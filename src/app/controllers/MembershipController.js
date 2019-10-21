@@ -76,6 +76,39 @@ class MembershipController {
 
     return res.json(membership);
   }
+
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      start_date: Yup.date().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation failed' });
+    }
+
+    const { id } = req.params;
+    const membership = await Membership.findByPk(id);
+
+    if (!membership) {
+      return res.status(400).json({ error: 'Membership not found' });
+    }
+
+    const { start_date } = req.body;
+    const start_date_day = startOfDay(parseISO(start_date));
+    const today = startOfDay(new Date());
+
+    if (isBefore(start_date_day, today)) {
+      return res
+        .status(400)
+        .json({ error: 'Membership date needs to be later than today' });
+    }
+
+    const updatedMembership = await membership.update({
+      start_date: start_date_day,
+    });
+
+    return res.json(updatedMembership);
+  }
 }
 
 export default new MembershipController();
