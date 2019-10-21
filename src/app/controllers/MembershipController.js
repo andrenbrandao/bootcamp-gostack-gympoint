@@ -109,6 +109,20 @@ class MembershipController {
 
     return res.json(updatedMembership);
   }
+
+  async delete(req, res) {
+    const { id } = req.params;
+
+    const membership = await Membership.findByPk(id);
+
+    if (!membership) {
+      res.status(404).json({ error: 'Membership not found' });
+    }
+
+    await membership.destroy();
+
+    return res.json({ message: 'Membership deleted' });
+  }
 }
 
 export default new MembershipController();
