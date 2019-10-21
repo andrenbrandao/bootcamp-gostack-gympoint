@@ -6,6 +6,31 @@ import Student from '../models/Student';
 import Membership from '../models/Membership';
 
 class MembershipController {
+  async index(req, res) {
+    const { page = 1 } = req.query;
+
+    const memberships = await Membership.findAll({
+      attributes: ['id', 'start_date', 'end_date', 'price'],
+      order: ['start_date'],
+      limit: 20,
+      offset: (page - 1) * 20,
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['id', 'name', 'age', 'weight', 'height'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['id', 'title', 'duration', 'price'],
+        },
+      ],
+    });
+
+    return res.json(memberships);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       student_id: Yup.number().required(),

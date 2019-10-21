@@ -23,6 +23,7 @@ router.post('/plans', PlanController.store);
 router.put('/plans/:id', PlanController.update);
 router.delete('/plans/:id', PlanController.delete);
 
+router.get('/memberships', MembershipController.index);
 router.post('/memberships', MembershipController.store);
 
 export default router;
