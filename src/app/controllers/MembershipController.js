@@ -1,9 +1,11 @@
-import { isBefore, parseISO, startOfDay } from 'date-fns';
+import { isBefore, parseISO, startOfDay, format } from 'date-fns';
 
 import * as Yup from 'yup';
 import Plan from '../models/Plan';
 import Student from '../models/Student';
 import Membership from '../models/Membership';
+
+import Mail from '../../lib/Mail';
 
 class MembershipController {
   async index(req, res) {
@@ -72,6 +74,22 @@ class MembershipController {
     const membership = await Membership.create({
       ...req.body,
       start_date: start_date_day,
+    });
+
+    const student = await membership.getStudent();
+    const plan = await membership.getPlan();
+
+    await Mail.sendMail({
+      to: `${student.name} <${student.email}>`,
+      subject: 'New Membership!',
+      template: 'membership',
+      context: {
+        student: student.name,
+        startDate: format(membership.start_date, 'PPPP'),
+        endDate: format(membership.end_date, 'PPPP'),
+        plan: plan.title,
+        price: membership.price,
+      },
     });
 
     return res.json(membership);
