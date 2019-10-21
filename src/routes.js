@@ -3,6 +3,7 @@ import { Router } from 'express';
 import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
+import MembershipController from './app/controllers/MembershipController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -21,5 +22,7 @@ router.get('/plans/:id', PlanController.show);
 router.post('/plans', PlanController.store);
 router.put('/plans/:id', PlanController.update);
 router.delete('/plans/:id', PlanController.delete);
+
+router.post('/memberships', MembershipController.store);
 
 export default router;
