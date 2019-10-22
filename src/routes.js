@@ -6,6 +6,7 @@ import PlanController from './app/controllers/PlanController';
 import MembershipController from './app/controllers/MembershipController';
 import CheckinController from './app/controllers/CheckinController';
 import HelpOrderController from './app/controllers/HelpOrderController';
+import HelpOrderAnswerController from './app/controllers/HelpOrderAnswerController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -39,5 +40,7 @@ router.get('/memberships', MembershipController.index);
 router.post('/memberships', MembershipController.store);
 router.put('/memberships/:id', MembershipController.update);
 router.delete('/memberships/:id', MembershipController.delete);
+
+router.get('/help-orders', HelpOrderAnswerController.index);
 
 export default router;
