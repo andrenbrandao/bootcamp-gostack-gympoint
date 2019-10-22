@@ -18,6 +18,7 @@ router.post('/sessions', SessionController.store);
 router.get('/students/:studentId/checkins', CheckinController.index);
 router.post('/students/:studentId/checkins', CheckinController.store);
 
+router.get('/students/:studentId/help-orders', HelpOrderController.index);
 router.post('/students/:studentId/help-orders', HelpOrderController.store);
 
 // Admin routes
