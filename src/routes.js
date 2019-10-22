@@ -5,6 +5,7 @@ import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
 import MembershipController from './app/controllers/MembershipController';
 import CheckinController from './app/controllers/CheckinController';
+import HelpOrderController from './app/controllers/HelpOrderController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -16,6 +17,8 @@ router.post('/sessions', SessionController.store);
 
 router.get('/students/:studentId/checkins', CheckinController.index);
 router.post('/students/:studentId/checkins', CheckinController.store);
+
+router.post('/students/:studentId/help-orders', HelpOrderController.store);
 
 // Admin routes
 
