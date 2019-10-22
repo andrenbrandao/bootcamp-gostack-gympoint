@@ -13,6 +13,12 @@ class HelpOrder extends Model {
       }
     );
 
+    this.addHook('beforeSave', async helpOrder => {
+      if (helpOrder.answer) {
+        helpOrder.answer_at = new Date();
+      }
+    });
+
     return this;
   }
 

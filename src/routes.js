@@ -42,5 +42,6 @@ router.put('/memberships/:id', MembershipController.update);
 router.delete('/memberships/:id', MembershipController.delete);
 
 router.get('/help-orders', HelpOrderAnswerController.index);
+router.post('/help-orders/:id/answers', HelpOrderAnswerController.store);
 
 export default router;
