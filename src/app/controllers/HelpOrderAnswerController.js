@@ -3,6 +3,9 @@ import * as Yup from 'yup';
 import Student from '../models/Student';
 import HelpOrder from '../models/HelpOrder';
 
+import Queue from '../../lib/Queue';
+import HelpOrderMail from '../jobs/HelpOrderMail';
+
 class HelpOrderAnswerController {
   async index(req, res) {
     const { page = 1 } = req.query;
@@ -51,6 +54,11 @@ class HelpOrderAnswerController {
 
     const updatedHelpOrder = await helpOrder.update({
       answer,
+    });
+
+    await Queue.add(HelpOrderMail.key, {
+      helpOrder: updatedHelpOrder,
+      student: await updatedHelpOrder.getStudent(),
     });
 
     return res.json(updatedHelpOrder);
