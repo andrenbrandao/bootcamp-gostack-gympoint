@@ -72,7 +72,7 @@ class MembershipController {
         .json({ error: 'Membership date needs to be later than today' });
     }
 
-    const membership = await Membership.ccreate({
+    const membership = await Membership.create({
       ...req.body,
       start_date: start_date_day,
     });
