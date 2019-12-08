@@ -13,7 +13,7 @@ class MembershipController {
     const { page = 1 } = req.query;
 
     const memberships = await Membership.findAll({
-      attributes: ['id', 'start_date', 'end_date', 'price'],
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
       order: ['start_date'],
       limit: 20,
       offset: (page - 1) * 20,
