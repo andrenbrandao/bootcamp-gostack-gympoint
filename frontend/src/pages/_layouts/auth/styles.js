@@ -29,6 +29,12 @@ export const Content = styled.div`
       text-align: left;
       font-size: 14px;
       margin: 0 0 20px;
+
+      span {
+        margin-top: 10px;
+        font-size: 11px;
+        color: #ee4d64;
+      }
     }
 
     input {

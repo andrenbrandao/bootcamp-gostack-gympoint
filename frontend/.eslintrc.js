@@ -38,6 +38,11 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    "jsx-a11y/label-has-associated-control": [ "error", {
+      "required": {
+        "some": [ "nesting", "id"  ]
+      }
+    }]
   },
   settings: {
     'import/resolver': {
