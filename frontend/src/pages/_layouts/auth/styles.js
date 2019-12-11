@@ -64,6 +64,12 @@ export const Content = styled.div`
       &:hover {
         background: ${darken(0.03, '#ee4d64')};
       }
+
+      &:disabled {
+        cursor: default;
+        background: #ee4d64;
+        opacity: 0.65;
+      }
     }
   }
 `;
