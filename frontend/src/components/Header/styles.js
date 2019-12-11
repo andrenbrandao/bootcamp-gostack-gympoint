@@ -53,8 +53,16 @@ export const Profile = styled.div`
     color: #666;
   }
 
-  a {
+  button {
+    background: none;
     color: #ee4d64;
+    border: 0;
+    text-align: right;
+    margin-top: 5px;
+
+    &:hover {
+      color: ${darken(0.1, '#ee4d64')};
+    }
   }
 `;
 
