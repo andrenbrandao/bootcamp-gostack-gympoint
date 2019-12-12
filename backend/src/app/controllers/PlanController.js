@@ -92,7 +92,7 @@ class PlanController {
     const plan = await Plan.findByPk(id);
 
     if (!plan) {
-      res.status(404).json({ error: 'Plan not found' });
+      return res.status(404).json({ error: 'Plan not found' });
     }
 
     await plan.destroy();

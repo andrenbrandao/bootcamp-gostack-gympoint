@@ -128,7 +128,7 @@ class MembershipController {
     const membership = await Membership.findByPk(id);
 
     if (!membership) {
-      res.status(404).json({ error: 'Membership not found' });
+      return res.status(404).json({ error: 'Membership not found' });
     }
 
     await membership.destroy();

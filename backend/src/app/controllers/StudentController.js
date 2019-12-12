@@ -132,7 +132,7 @@ class StudentController {
     const student = await Student.findByPk(id);
 
     if (!student) {
-      res.status(404).json({ error: 'Student not found' });
+      return res.status(404).json({ error: 'Student not found' });
     }
 
     await student.destroy();
