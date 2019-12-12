@@ -31,6 +31,14 @@ export default function StudentList() {
     setStudents(response.data);
   }
 
+  async function handleDelete(id) {
+    if (window.confirm('Você tem certeza que deseja deletar esse aluno?')) {
+      await api.delete(`/students/${id}`);
+
+      setStudents(students.filter(s => s.id !== id));
+    }
+  }
+
   return (
     <Container>
       <header>
@@ -70,7 +78,12 @@ export default function StudentList() {
                 <td>{student.age}</td>
                 <td>
                   <Link to="/#">editar</Link>
-                  <button type="button">apagar</button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(student.id)}
+                  >
+                    apagar
+                  </button>
                 </td>
               </tr>
             ))}
