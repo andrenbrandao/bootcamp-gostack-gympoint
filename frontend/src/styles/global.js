@@ -23,10 +23,12 @@ export default createGlobalStyle`
 
   body {
     -webkit-font-smoothing: antialiased;
+    color: #444;
   }
 
   body, input, button {
     font: 14px 'Roboto', sans-serif;
+    color: #444;
   }
 
   a {

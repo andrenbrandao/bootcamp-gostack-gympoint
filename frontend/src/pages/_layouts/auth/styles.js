@@ -58,11 +58,12 @@ export const Content = styled.div`
       color: #fff;
       font-size: 16px;
       padding: 13px;
+      border: none;
       border-radius: 4px;
       transition: background 0.2s;
 
       &:hover {
-        background: ${darken(0.03, '#ee4d64')};
+        background: ${darken(0.08, '#ee4d64')};
       }
 
       &:disabled {

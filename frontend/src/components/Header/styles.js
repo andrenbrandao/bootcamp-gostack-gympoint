@@ -56,7 +56,7 @@ export const Profile = styled.div`
   button {
     background: none;
     color: #ee4d64;
-    border: 0;
+    border: none;
     text-align: right;
     margin-top: 5px;
 
