@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdAdd, MdSearch } from 'react-icons/md';
+
+import api from '~/services/api';
 
 import {
   Container,
@@ -11,6 +13,18 @@ import {
 } from './styles';
 
 export default function StudentList() {
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+    async function loadStudents() {
+      const response = await api.get('/students');
+
+      setStudents(response.data);
+    }
+
+    loadStudents();
+  }, []);
+
   return (
     <Container>
       <header>
@@ -39,42 +53,17 @@ export default function StudentList() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Cha Ji-Hun</td>
-              <td>example@rocketseat.com.br</td>
-              <td>20</td>
-              <td>
-                <Link to="/#">editar</Link>
-                <button type="button">apagar</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Cha Ji-Hun</td>
-              <td>example@rocketseat.com.br</td>
-              <td>20</td>
-              <td>
-                <Link to="/#">editar</Link>
-                <button type="button">apagar</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Chomkwan Wattana</td>
-              <td>example@rocketseat.com.br</td>
-              <td>20</td>
-              <td>
-                <Link to="/#">editar</Link>
-                <button type="button">apagar</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Cha Ji-Hun</td>
-              <td>example@rocketseat.com.br</td>
-              <td>20</td>
-              <td>
-                <Link to="/#">editar</Link>
-                <button type="button">apagar</button>
-              </td>
-            </tr>
+            {students.map(student => (
+              <tr>
+                <td>{student.name}</td>
+                <td>{student.email}</td>
+                <td>{student.age}</td>
+                <td>
+                  <Link to="/#">editar</Link>
+                  <button type="button">apagar</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </StudentTable>
       </Content>
