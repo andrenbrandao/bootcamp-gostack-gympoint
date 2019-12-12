@@ -9,7 +9,7 @@ class StudentController {
     const students = queryName
       ? await Student.findAll({
           where: {
-            name: { [Op.like]: `%${queryName}%` },
+            name: { [Op.iLike]: `%${queryName}%` },
           },
           order: ['name'],
         })
