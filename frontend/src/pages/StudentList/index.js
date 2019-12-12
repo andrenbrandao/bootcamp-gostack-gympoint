@@ -25,6 +25,12 @@ export default function StudentList() {
     loadStudents();
   }, []);
 
+  async function handleSearch(value) {
+    const response = await api.get('/students', { params: { q: value } });
+
+    setStudents(response.data);
+  }
+
   return (
     <Container>
       <header>
@@ -37,7 +43,11 @@ export default function StudentList() {
           </button>
           <SearchInput>
             <MdSearch size={18} color="#999" />
-            <input name="search" placeholder="Buscar aluno" />
+            <input
+              name="search"
+              placeholder="Buscar aluno"
+              onChange={e => handleSearch(e.target.value)}
+            />
           </SearchInput>
         </StudentControls>
       </header>
@@ -54,7 +64,7 @@ export default function StudentList() {
           </thead>
           <tbody>
             {students.map(student => (
-              <tr>
+              <tr key={student.id}>
                 <td>{student.name}</td>
                 <td>{student.email}</td>
                 <td>{student.age}</td>
