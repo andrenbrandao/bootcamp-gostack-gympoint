@@ -55,6 +55,7 @@ export const SearchInput = styled.div`
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-left: 15px;
+  min-width: 235px;
 
   input {
     height: 100%;
@@ -70,5 +71,65 @@ export const SearchInput = styled.div`
     top: auto;
     left: 12px;
     pointer-events: none;
+  }
+`;
+
+export const Content = styled.div`
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  margin-top: 20px;
+`;
+
+export const StudentTable = styled.table`
+  width: 100%;
+
+  thead th {
+    text-align: left;
+
+    &:nth-child(3) {
+      text-align: center;
+    }
+  }
+
+  tbody td {
+    padding: 16px 0;
+    border-bottom: 1px solid #eee;
+    min-width: 150px;
+
+    &:nth-child(3) {
+      text-align: center;
+      min-width: 0;
+      max-width: 100px;
+    }
+
+    &:nth-child(4) {
+      text-align: right;
+    }
+
+    a {
+      color: #4d85ee;
+
+      &:hover {
+        color: ${darken(0.1, '#4d85ee')};
+      }
+    }
+
+    button {
+      background: none;
+      color: #ee4d64;
+      border: 0;
+      margin-left: 20px;
+
+      &:hover {
+        color: ${darken(0.1, '#ee4d64')};
+      }
+    }
+  }
+
+  tbody tr:last-child {
+    td {
+      border-bottom: none;
+    }
   }
 `;
