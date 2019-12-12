@@ -11,8 +11,9 @@ class StudentController {
           where: {
             name: { [Op.like]: `%${queryName}%` },
           },
+          order: ['name'],
         })
-      : await Student.findAll();
+      : await Student.findAll({ order: ['name'] });
 
     return res.json(students);
   }
