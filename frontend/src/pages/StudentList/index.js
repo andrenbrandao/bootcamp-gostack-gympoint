@@ -77,7 +77,7 @@ export default function StudentList() {
                 <td>{student.email}</td>
                 <td>{student.age}</td>
                 <td>
-                  <Link to="/#">editar</Link>
+                  <Link to={`/students/${student.id}/edit`}>editar</Link>
                   <button
                     type="button"
                     onClick={() => handleDelete(student.id)}
