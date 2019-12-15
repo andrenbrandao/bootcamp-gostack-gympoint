@@ -74,7 +74,6 @@ export default function StudentEdit({ match }) {
       history.push('/students');
     } catch (err) {
       toast.error('Houve um erro ao atualizar o aluno');
-      console.tron.log(err);
     }
   }
 

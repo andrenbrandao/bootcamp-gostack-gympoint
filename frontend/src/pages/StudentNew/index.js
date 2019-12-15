@@ -45,7 +45,6 @@ export default function StudentNew() {
       history.push('/students');
     } catch (err) {
       toast.error('Houve um erro ao cadastrar aluno');
-      console.tron.log(err);
     }
   }
 
