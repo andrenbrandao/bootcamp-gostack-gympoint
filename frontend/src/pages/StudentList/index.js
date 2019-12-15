@@ -10,6 +10,7 @@ import {
   StudentControls,
   Content,
   StudentTable,
+  Button,
 } from './styles';
 
 export default function StudentList() {
@@ -45,10 +46,10 @@ export default function StudentList() {
         <h1>Gerenciando alunos</h1>
 
         <StudentControls>
-          <button type="button">
+          <Button as={Link} to="/students/new">
             <MdAdd size={20} color="#fff" />
             CADASTRAR
-          </button>
+          </Button>
           <SearchInput>
             <MdSearch size={18} color="#999" />
             <input

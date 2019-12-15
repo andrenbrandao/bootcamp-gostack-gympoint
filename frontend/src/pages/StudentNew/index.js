@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MdChevronLeft, MdCheck } from 'react-icons/md';
@@ -30,39 +30,10 @@ const schema = Yup.object().shape({
     .required('A altura é obrigatória'),
 });
 
-export default function StudentEdit({ match }) {
-  const {
-    params: { id },
-  } = match;
-
-  const [student, setStudent] = useState({});
-  const [initialData, setInitialData] = useState({});
-
-  useEffect(() => {
-    async function loadStudent() {
-      const response = await api.get(`/students/${id}`);
-
-      setStudent(response.data);
-    }
-
-    loadStudent();
-  }, [id]);
-
-  useEffect(() => {
-    const { name, email, age, weight, height } = student;
-
-    setInitialData({
-      name,
-      email,
-      age,
-      weight,
-      height,
-    });
-  }, [student]);
-
+export default function StudentNew() {
   async function handleSubmit({ name, email, age, weight, height }) {
     try {
-      await api.put(`/students/${id}`, {
+      await api.post('/students', {
         name,
         email,
         age,
@@ -70,10 +41,10 @@ export default function StudentEdit({ match }) {
         height,
       });
 
-      toast.success('Aluno atualizado com sucesso');
+      toast.success('Aluno cadastrado com sucesso');
       history.push('/students');
     } catch (err) {
-      toast.error('Houve um erro ao atualizar o aluno');
+      toast.error('Houve um erro ao cadastrar aluno');
       console.tron.log(err);
     }
   }
@@ -81,7 +52,7 @@ export default function StudentEdit({ match }) {
   return (
     <Container>
       <header>
-        <h1>Edição de aluno</h1>
+        <h1>Cadastro de aluno</h1>
 
         <Controls>
           <Button as={Link} to="/students" className="secondary">
@@ -97,12 +68,7 @@ export default function StudentEdit({ match }) {
       </header>
 
       <Content>
-        <Form
-          id="studentForm"
-          schema={schema}
-          initialData={initialData}
-          onSubmit={handleSubmit}
-        >
+        <Form id="studentForm" schema={schema} onSubmit={handleSubmit}>
           <label htmlFor="name">
             NOME COMPLETO
             <Input id="name" name="name" required />
@@ -146,7 +112,7 @@ export default function StudentEdit({ match }) {
   );
 }
 
-StudentEdit.propTypes = {
+StudentNew.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
