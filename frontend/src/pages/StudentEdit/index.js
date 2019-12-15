@@ -6,6 +6,7 @@ import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
+import NumberFormatInput from '~/components/NumberFormatInput';
 import history from '~/services/history';
 import api from '~/services/api';
 
@@ -16,9 +17,17 @@ const schema = Yup.object().shape({
   email: Yup.string()
     .email('Insira um e-mail válido')
     .required('O e-mail é obrigatório'),
-  age: Yup.number().integer().positive('Insira uma idade válida').required('A idade é obrigatória'),
-  weight: Yup.number().positive('Insira um peso válido').required('O peso é obrigatório'),
-  height: Yup.number().positive('Insira uma altura válida').required('A altura é obrigatória'),
+  age: Yup.number()
+    .integer()
+    .positive('Insira uma idade válida')
+    .required('A idade é obrigatória')
+    .typeError('Insira uma idade válida'),
+  weight: Yup.number()
+    .positive('Insira um peso válido')
+    .required('O peso é obrigatório'),
+  height: Yup.number()
+    .positive('Insira uma altura válida')
+    .required('A altura é obrigatória'),
 });
 
 export default function StudentEdit({ match }) {
@@ -80,7 +89,7 @@ export default function StudentEdit({ match }) {
             VOLTAR
           </Button>
 
-          <Button type="submit" form="myform">
+          <Button type="submit" form="studentForm">
             <MdCheck size={20} color="#fff" />
             SALVAR
           </Button>
@@ -89,35 +98,46 @@ export default function StudentEdit({ match }) {
 
       <Content>
         <Form
-          id="myform"
+          id="studentForm"
           schema={schema}
           initialData={initialData}
           onSubmit={handleSubmit}
         >
           <label htmlFor="name">
             NOME COMPLETO
-            <Input id="name" name="name" />
+            <Input id="name" name="name" required />
           </label>
 
           <label htmlFor="email">
             ENDEREÇO DE E-MAIL
-            <Input id="email" name="email" type="email" />
+            <Input id="email" name="email" type="email" required />
           </label>
 
           <div>
             <label htmlFor="age">
               IDADE
-              <Input id="age" name="age" />
+              <NumberFormatInput format="##" id="age" name="age" required />
             </label>
 
             <label htmlFor="weight">
               PESO (em kg)
-              <Input id="weight" name="weight" />
+              <NumberFormatInput
+                decimalScale={1}
+                fixedDecimalScale
+                id="weight"
+                name="weight"
+                required
+              />
             </label>
 
             <label htmlFor="height">
               ALTURA (em cm)
-              <Input id="height" name="height" />
+              <NumberFormatInput
+                format="###"
+                id="height"
+                name="height"
+                required
+              />
             </label>
           </div>
         </Form>
