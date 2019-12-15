@@ -72,7 +72,7 @@ export default function PlanEdit({ match }) {
   return (
     <Container>
       <header>
-        <h1>Edição de aluno</h1>
+        <h1>Edição de plano</h1>
 
         <Controls>
           <Button as={Link} to="/plans" className="secondary">
