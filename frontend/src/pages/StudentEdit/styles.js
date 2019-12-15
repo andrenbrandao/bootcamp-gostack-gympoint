@@ -1,10 +1,11 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { darken } from 'polished';
 
 export const Container = styled.div`
-  margin: 30px 50px;
+  margin: 30px auto;
   display: flex;
   flex-direction: column;
+  max-width: 800px;
 
   header {
     display: flex;
@@ -52,6 +53,58 @@ export const Button = styled.button`
 
     &:hover {
       background: ${darken(0.08, '#ccc')};
+    }
+  }
+`;
+
+export const Content = styled.div`
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  margin-top: 20px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+
+      label + label {
+        margin-left: 10px;
+      }
+    }
+
+    label {
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: left;
+      font-size: 14px;
+      margin-bottom: 20px;
+      flex: 1;
+
+      span {
+        margin-top: 10px;
+        font-size: 11px;
+        color: #ee4d64;
+      }
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      height: 45px;
+      padding: 0 10px;
+      display: block;
+      margin-top: 5px;
+      font-size: 16px;
+
+      &::placeholder {
+        color: #999;
+      }
     }
   }
 `;

@@ -2,10 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MdChevronLeft, MdCheck } from 'react-icons/md';
+import { Form, Input } from '@rocketseat/unform';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
+import history from '~/services/history';
 import api from '~/services/api';
 
-import { Container, Controls, Button } from './styles';
+import { Container, Controls, Content, Button } from './styles';
+
+const schema = Yup.object().shape({
+  name: Yup.string().required('O nome é obrigatório'),
+  email: Yup.string()
+    .email('Insira um e-mail válido')
+    .required('O e-mail é obrigatório'),
+  age: Yup.number().integer().positive('Insira uma idade válida').required('A idade é obrigatória'),
+  weight: Yup.number().positive('Insira um peso válido').required('O peso é obrigatório'),
+  height: Yup.number().positive('Insira uma altura válida').required('A altura é obrigatória'),
+});
 
 export default function StudentEdit({ match }) {
   const {
@@ -13,6 +27,7 @@ export default function StudentEdit({ match }) {
   } = match;
 
   const [student, setStudent] = useState({});
+  const [initialData, setInitialData] = useState({});
 
   useEffect(() => {
     async function loadStudent() {
@@ -23,6 +38,36 @@ export default function StudentEdit({ match }) {
 
     loadStudent();
   }, [id]);
+
+  useEffect(() => {
+    const { name, email, age, weight, height } = student;
+
+    setInitialData({
+      name,
+      email,
+      age,
+      weight,
+      height,
+    });
+  }, [student]);
+
+  async function handleSubmit({ name, email, age, weight, height }) {
+    try {
+      await api.put(`/students/${id}`, {
+        name,
+        email,
+        age,
+        weight,
+        height,
+      });
+
+      toast.success('Usuário atualizado com sucesso');
+      history.push('/students');
+    } catch (err) {
+      toast.error('Houve um erro ao atualizar o usuário');
+      console.tron.log(err);
+    }
+  }
 
   return (
     <Container>
@@ -35,12 +80,48 @@ export default function StudentEdit({ match }) {
             VOLTAR
           </Button>
 
-          <Button>
+          <Button type="submit" form="myform">
             <MdCheck size={20} color="#fff" />
             SALVAR
           </Button>
         </Controls>
       </header>
+
+      <Content>
+        <Form
+          id="myform"
+          schema={schema}
+          initialData={initialData}
+          onSubmit={handleSubmit}
+        >
+          <label htmlFor="name">
+            NOME COMPLETO
+            <Input id="name" name="name" />
+          </label>
+
+          <label htmlFor="email">
+            ENDEREÇO DE E-MAIL
+            <Input id="email" name="email" type="email" />
+          </label>
+
+          <div>
+            <label htmlFor="age">
+              IDADE
+              <Input id="age" name="age" />
+            </label>
+
+            <label htmlFor="weight">
+              PESO (em kg)
+              <Input id="weight" name="weight" />
+            </label>
+
+            <label htmlFor="height">
+              ALTURA (em cm)
+              <Input id="height" name="height" />
+            </label>
+          </div>
+        </Form>
+      </Content>
     </Container>
   );
 }
