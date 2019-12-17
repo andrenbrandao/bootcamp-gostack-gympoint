@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdAdd, MdSearch } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 
@@ -34,9 +35,15 @@ export default function StudentList() {
 
   async function handleDelete(id) {
     if (window.confirm('Você tem certeza que deseja deletar esse aluno?')) {
-      await api.delete(`/students/${id}`);
+      try {
+        await api.delete(`/students/${id}`);
 
-      setStudents(students.filter(s => s.id !== id));
+        setStudents(students.filter(s => s.id !== id));
+        toast.success('Aluno removido com sucesso');
+      } catch (err) {
+        console.tron.log(err);
+        toast.error('Houve um erro ao remover o aluno');
+      }
     }
   }
 

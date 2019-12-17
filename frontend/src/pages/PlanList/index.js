@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdAdd } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import { formatPrice, formatMonth } from '~/utils/format';
 import api from '~/services/api';
@@ -28,9 +29,15 @@ export default function PlanList() {
 
   async function handleDelete(id) {
     if (window.confirm('Você tem certeza que deseja deletar esse plano?')) {
-      await api.delete(`/plans/${id}`);
+      try {
+        await api.delete(`/plans/${id}`);
 
-      setPlans(plans.filter(s => s.id !== id));
+        setPlans(plans.filter(s => s.id !== id));
+        toast.success('Plano removido com sucesso');
+      } catch (err) {
+        console.tron.log(err);
+        toast.error('Houve um erro ao remover o plano');
+      }
     }
   }
 
