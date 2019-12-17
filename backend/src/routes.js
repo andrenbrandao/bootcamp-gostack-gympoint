@@ -38,6 +38,7 @@ router.put('/plans/:id', PlanController.update);
 router.delete('/plans/:id', PlanController.delete);
 
 router.get('/memberships', MembershipController.index);
+router.get('/memberships/:id', MembershipController.show)
 router.post('/memberships', MembershipController.store);
 router.put('/memberships/:id', MembershipController.update);
 router.delete('/memberships/:id', MembershipController.delete);

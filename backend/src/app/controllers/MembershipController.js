@@ -34,6 +34,32 @@ class MembershipController {
     return res.json(memberships);
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+
+    const membership = await Membership.findByPk(id, {
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['id', 'name', 'age', 'weight', 'height'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['id', 'title', 'duration', 'price'],
+        },
+      ],
+    });
+
+    if (!membership) {
+      res.status(404).json({ error: 'Membership not found' });
+    }
+
+    return res.json(membership);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       student_id: Yup.number().required(),
