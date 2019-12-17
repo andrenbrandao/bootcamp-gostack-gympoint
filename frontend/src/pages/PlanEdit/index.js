@@ -31,7 +31,8 @@ export default function PlanEdit({ match }) {
   } = match;
 
   const [plan, setPlan] = useState({});
-  const [initialData, setInitialData] = useState({});
+  const [data, setData] = useState({});
+  const [totalPrice, setTotalPrice] = useState(formatPrice(0.0));
 
   useEffect(() => {
     async function loadPlan() {
@@ -46,12 +47,15 @@ export default function PlanEdit({ match }) {
   useEffect(() => {
     const { title, duration, price } = plan;
 
-    setInitialData({
+    setData({
       title,
       duration,
       price: formatPrice(price),
-      totalPrice: formatPrice(price),
+      priceValue: price,
+      durationValue: duration,
     });
+
+    setTotalPrice(formatPrice(price * duration));
   }, [plan]);
 
   async function handleSubmit({ title, duration, price }) {
@@ -67,6 +71,18 @@ export default function PlanEdit({ match }) {
     } catch (err) {
       toast.error('Houve um erro ao atualizar o plano');
     }
+  }
+
+  function handleDurationChange({ value }) {
+    const { priceValue } = data;
+    setData({ ...data, durationValue: value });
+    setTotalPrice(formatPrice(value * priceValue));
+  }
+
+  function handlePriceChange({ value }) {
+    const { durationValue } = data;
+    setData({ ...data, priceValue: value });
+    setTotalPrice(formatPrice(durationValue * value));
   }
 
   return (
@@ -91,7 +107,7 @@ export default function PlanEdit({ match }) {
         <Form
           id="planForm"
           schema={schema}
-          initialData={initialData}
+          initialData={data}
           onSubmit={handleSubmit}
         >
           <label htmlFor="title">
@@ -107,6 +123,7 @@ export default function PlanEdit({ match }) {
                 id="duration"
                 name="duration"
                 required
+                onChange={handleDurationChange}
               />
             </label>
 
@@ -120,12 +137,18 @@ export default function PlanEdit({ match }) {
                 id="price"
                 name="price"
                 required
+                onChange={handlePriceChange}
               />
             </label>
 
             <label htmlFor="totalPrice">
               PREÇO TOTAL
-              <Input id="totalPrice" name="totalPrice" disabled />
+              <input
+                id="totalPrice"
+                name="totalPrice"
+                value={totalPrice}
+                disabled
+              />
             </label>
           </div>
         </Form>

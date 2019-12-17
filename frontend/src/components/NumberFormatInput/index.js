@@ -8,32 +8,28 @@ export default function NumberFormatInput({
   label,
   format,
   id,
+  onChange,
   ...rest
 }) {
   const ref = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
-  const [formattedValue, setFormattedValue] = useState(defaultValue);
-  const [currentValue, setCurrentValue] = useState(defaultValue);
+  const [valueFormatted, setValueFormatted] = useState(defaultValue);
 
   useEffect(() => {
     registerField({
       name: fieldName,
       ref: ref.current,
-      path: 'props.realvalue',
+      path: 'state.numAsString',
     });
   }, [ref.current, fieldName]); // eslint-disable-line
 
-  function handleChange(e) {
-    const { value } = e.target;
-    return setFormattedValue(value);
-  }
-
-  function handleValueChange({ value }) {
-    return setCurrentValue(value);
+  function handleValueChange({ value, formattedValue }) {
+    setValueFormatted(formattedValue);
+    onChange({ value, formattedValue });
   }
 
   useEffect(() => {
-    setFormattedValue(defaultValue);
+    setValueFormatted(defaultValue);
   }, [defaultValue]);
 
   return (
@@ -44,10 +40,7 @@ export default function NumberFormatInput({
         name={fieldName}
         format={format}
         id={id}
-        defaultValue={defaultValue}
-        value={formattedValue}
-        realvalue={currentValue}
-        onChange={e => handleChange(e)}
+        value={valueFormatted}
         onValueChange={values => handleValueChange(values)}
         ref={ref}
         {...rest}
