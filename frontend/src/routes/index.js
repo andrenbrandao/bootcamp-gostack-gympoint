@@ -8,6 +8,7 @@ import StudentEdit from '~/pages/StudentEdit';
 import StudentNew from '~/pages/StudentNew';
 import PlanList from '~/pages/PlanList';
 import PlanEdit from '~/pages/PlanEdit';
+import PlanNew from '~/pages/PlanNew';
 
 export default function Routes() {
   return (
@@ -17,7 +18,7 @@ export default function Routes() {
       <Route path="/students/new" component={StudentNew} isPrivate />
       <Route path="/students" component={StudentList} isPrivate />
       <Route path="/plans/:id/edit" component={PlanEdit} isPrivate />
-      <Route path="/plans/new" component={PlanList} isPrivate />
+      <Route path="/plans/new" component={PlanNew} isPrivate />
       <Route path="/plans" component={PlanList} isPrivate />
     </Switch>
   );
