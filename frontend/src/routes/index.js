@@ -9,6 +9,7 @@ import StudentNew from '~/pages/StudentNew';
 import PlanList from '~/pages/PlanList';
 import PlanEdit from '~/pages/PlanEdit';
 import PlanNew from '~/pages/PlanNew';
+import MembershipList from '~/pages/MembershipList';
 
 export default function Routes() {
   return (
@@ -20,6 +21,7 @@ export default function Routes() {
       <Route path="/plans/:id/edit" component={PlanEdit} isPrivate />
       <Route path="/plans/new" component={PlanNew} isPrivate />
       <Route path="/plans" component={PlanList} isPrivate />
+      <Route path="/memberships" component={MembershipList} isPrivate />
     </Switch>
   );
 }
