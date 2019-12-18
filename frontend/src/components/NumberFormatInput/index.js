@@ -25,7 +25,7 @@ export default function NumberFormatInput({
 
   function handleValueChange({ value, formattedValue }) {
     setValueFormatted(formattedValue);
-    onChange({ value, formattedValue });
+    if (onChange) onChange({ value, formattedValue });
   }
 
   useEffect(() => {
