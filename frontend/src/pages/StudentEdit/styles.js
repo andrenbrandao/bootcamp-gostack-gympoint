@@ -74,7 +74,7 @@ export const FormRow = styled.div`
   display: flex;
   justify-content: space-between;
 
-  div + div {
+  > div + div {
     margin-left: 10px;
   }
 `;
@@ -90,6 +90,7 @@ export const FormGroup = styled.div`
     text-transform: uppercase;
     text-align: left;
     font-size: 14px;
+    margin-bottom: 5px;
     flex: 1;
 
     span {
@@ -106,7 +107,6 @@ export const FormGroup = styled.div`
     height: 45px;
     padding: 0 10px;
     display: block;
-    margin-top: 5px;
     font-size: 16px;
 
     &::placeholder {
