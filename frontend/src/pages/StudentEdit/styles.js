@@ -72,39 +72,45 @@ export const Content = styled.div`
       display: flex;
       justify-content: space-between;
 
-      label + label {
+      div + div {
         margin-left: 10px;
       }
     }
+  }
+`;
 
-    label {
-      font-weight: bold;
-      text-transform: uppercase;
-      text-align: left;
-      font-size: 14px;
-      margin-bottom: 20px;
-      flex: 1;
+export const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  flex: 1;
 
-      span {
-        margin-top: 10px;
-        font-size: 11px;
-        color: #ee4d64;
-      }
+  label {
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 14px;
+    flex: 1;
+
+    span {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #ee4d64;
     }
+  }
 
-    input {
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      height: 45px;
-      padding: 0 10px;
-      display: block;
-      margin-top: 5px;
-      font-size: 16px;
+  input {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 45px;
+    padding: 0 10px;
+    display: block;
+    margin-top: 5px;
+    font-size: 16px;
 
-      &::placeholder {
-        color: #999;
-      }
+    &::placeholder {
+      color: #999;
     }
   }
 `;

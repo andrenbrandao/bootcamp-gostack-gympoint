@@ -10,7 +10,7 @@ import NumberFormatInput from '~/components/NumberFormatInput';
 import history from '~/services/history';
 import api from '~/services/api';
 
-import { Container, Controls, Content, Button } from './styles';
+import { Container, Controls, Content, Button, FormGroup } from './styles';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('O nome é obrigatório'),
@@ -102,42 +102,51 @@ export default function StudentEdit({ match }) {
           initialData={initialData}
           onSubmit={handleSubmit}
         >
-          <label htmlFor="name">
-            NOME COMPLETO
-            <Input id="name" name="name" required />
-          </label>
+          <FormGroup>
+            <Input id="name" name="name" label="NOME COMPLETO" required />
+          </FormGroup>
 
-          <label htmlFor="email">
-            ENDEREÇO DE E-MAIL
-            <Input id="email" name="email" type="email" required />
-          </label>
+          <FormGroup>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              label="ENDEREÇO DE E-MAIL"
+              required
+            />
+          </FormGroup>
 
           <div>
-            <label htmlFor="age">
-              IDADE
-              <NumberFormatInput format="##" id="age" name="age" required />
-            </label>
+            <FormGroup>
+              <NumberFormatInput
+                format="##"
+                id="age"
+                name="age"
+                label="IDADE"
+                required
+              />
+            </FormGroup>
 
-            <label htmlFor="weight">
-              PESO (em kg)
+            <FormGroup>
               <NumberFormatInput
                 decimalScale={1}
                 fixedDecimalScale
                 id="weight"
                 name="weight"
+                label="PESO (em kg)"
                 required
               />
-            </label>
+            </FormGroup>
 
-            <label htmlFor="height">
-              ALTURA (em cm)
+            <FormGroup>
               <NumberFormatInput
                 format="###"
                 id="height"
                 name="height"
+                label="ALTURA (em cm)"
                 required
               />
-            </label>
+            </FormGroup>
           </div>
         </Form>
       </Content>
