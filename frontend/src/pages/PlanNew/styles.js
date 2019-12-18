@@ -67,15 +67,15 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+  }
+`;
 
-    > div {
-      display: flex;
-      justify-content: space-between;
+export const FormRow = styled.div`
+  display: flex;
+  justify-content: space-between;
 
-      div + div {
-        margin-left: 10px;
-      }
-    }
+  div + div {
+    margin-left: 10px;
   }
 `;
 

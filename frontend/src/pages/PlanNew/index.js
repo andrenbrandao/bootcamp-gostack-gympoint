@@ -10,7 +10,14 @@ import NumberFormatInput from '~/components/NumberFormatInput';
 import history from '~/services/history';
 import api from '~/services/api';
 
-import { Container, Controls, Content, Button, FormGroup } from './styles';
+import {
+  Container,
+  Controls,
+  Content,
+  Button,
+  FormGroup,
+  FormRow,
+} from './styles';
 
 const schema = Yup.object().shape({
   title: Yup.string().required('O título é obrigatório'),
@@ -77,7 +84,7 @@ export default function PlanEdit() {
           <FormGroup>
             <Input id="title" name="title" label="TÍTULO DO PLANO" required />
           </FormGroup>
-          <div>
+          <FormRow>
             <FormGroup>
               <NumberFormatInput
                 format="##"
@@ -112,7 +119,7 @@ export default function PlanEdit() {
                 disabled
               />
             </FormGroup>
-          </div>
+          </FormRow>
         </Form>
       </Content>
     </Container>

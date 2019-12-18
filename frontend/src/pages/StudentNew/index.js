@@ -10,7 +10,14 @@ import NumberFormatInput from '~/components/NumberFormatInput';
 import history from '~/services/history';
 import api from '~/services/api';
 
-import { Container, Controls, Content, Button, FormGroup } from './styles';
+import {
+  Container,
+  Controls,
+  Content,
+  Button,
+  FormGroup,
+  FormRow,
+} from './styles';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('O nome é obrigatório'),
@@ -82,7 +89,7 @@ export default function StudentNew() {
             />
           </FormGroup>
 
-          <div>
+          <FormRow>
             <FormGroup>
               <NumberFormatInput
                 format="##"
@@ -113,7 +120,7 @@ export default function StudentNew() {
                 required
               />
             </FormGroup>
-          </div>
+          </FormRow>
         </Form>
       </Content>
     </Container>
