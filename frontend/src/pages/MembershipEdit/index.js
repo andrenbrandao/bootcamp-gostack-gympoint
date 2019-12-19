@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { MdChevronLeft, MdCheck } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
-import { format, addMonths } from 'date-fns';
+import { format, parseISO, addMonths } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { toast } from 'react-toastify';
 import { formatPrice } from '~/utils/format';
@@ -21,6 +21,7 @@ import {
   Button,
   FormGroup,
   FormRow,
+  Loading,
 } from './styles';
 
 const schema = Yup.object().shape({
@@ -44,6 +45,7 @@ export default function MembershipEdit({ match }) {
     params: { id },
   } = match;
 
+  const [loading, setLoading] = useState(true);
   const [membership, setMembership] = useState({});
   const [duration, setDuration] = useState(0);
   const [startDate, setStartDate] = useState(null);
@@ -51,12 +53,30 @@ export default function MembershipEdit({ match }) {
   const [totalPrice, setTotalPrice] = useState('');
   const [studentOptions, setStudentOptions] = useState([]);
   const [planOptions, setPlanOptions] = useState([]);
+  const [selectedPlan, setSelectedPlan] = useState({});
+  const [selectedStudent, setSelectedStudent] = useState({});
 
   useEffect(() => {
     async function loadMembership() {
       const response = await api.get(`/memberships/${id}`);
 
       setMembership(response.data);
+
+      const { plan, student, start_date, end_date } = response.data;
+      setSelectedPlan({ ...plan, id: plan.id, title: plan.title });
+      setSelectedStudent({
+        ...student,
+        id: student.id,
+        title: student.name,
+      });
+      const endDateFormatted = format(parseISO(end_date), 'dd/MM/yyyy', {
+        locale: ptBR,
+      });
+      setDuration(plan.duration);
+      setStartDate(parseISO(start_date));
+      setEndDate(endDateFormatted);
+      setTotalPrice(formatPrice(plan.price * plan.duration));
+      setLoading(false);
     }
 
     loadMembership();
@@ -104,6 +124,7 @@ export default function MembershipEdit({ match }) {
 
   function handlePlanChange(plan) {
     const { duration: newDuration, price } = plan;
+    setSelectedPlan(plan);
     setDuration(newDuration);
     setTotalPrice(formatPrice(price * newDuration));
     updateEndDate(newDuration, startDate);
@@ -112,6 +133,10 @@ export default function MembershipEdit({ match }) {
   function handleStartDateChange(date) {
     setStartDate(date);
     updateEndDate(duration, date);
+  }
+
+  function handleStudentChange(student) {
+    setSelectedStudent(student);
   }
 
   return (
@@ -133,60 +158,68 @@ export default function MembershipEdit({ match }) {
       </header>
 
       <Content>
-        <Form id="membershipForm" schema={schema} onSubmit={handleSubmit}>
-          <FormGroup>
-            <ReactSelect
-              id="student_id"
-              name="student_id"
-              options={studentOptions}
-              label="ALUNO"
-              placeholder="Buscar aluno"
-            />
-          </FormGroup>
-
-          <FormRow>
+        {loading ? (
+          <Loading>Carregando...</Loading>
+        ) : (
+          <Form id="membershipForm" schema={schema} onSubmit={handleSubmit}>
             <FormGroup>
               <ReactSelect
-                id="plan_id"
-                name="plan_id"
-                options={planOptions}
-                label="Plano"
-                placeholder="Selecione o plano"
-                onChange={handlePlanChange}
+                id="student_id"
+                name="student_id"
+                value={selectedStudent}
+                options={studentOptions}
+                label="ALUNO"
+                placeholder="Buscar aluno"
+                onChange={handleStudentChange}
               />
             </FormGroup>
 
-            <FormGroup>
-              <DatePicker
-                id="start_date"
-                name="start_date"
-                label="DATA DE INÍCIO"
-                placeholderText="Escolha a data"
-                onChange={handleStartDateChange}
-              />
-            </FormGroup>
+            <FormRow>
+              <FormGroup>
+                <ReactSelect
+                  id="plan_id"
+                  name="plan_id"
+                  value={selectedPlan}
+                  options={planOptions}
+                  label="Plano"
+                  placeholder="Selecione o plano"
+                  onChange={handlePlanChange}
+                />
+              </FormGroup>
 
-            <FormGroup>
-              <Input
-                id="endDate"
-                name="endDate"
-                value={endDate}
-                label="DATA DE TÉRMINO"
-                disabled
-              />
-            </FormGroup>
+              <FormGroup>
+                <DatePicker
+                  id="start_date"
+                  name="start_date"
+                  label="DATA DE INÍCIO"
+                  selected={startDate}
+                  placeholderText="Escolha a data"
+                  onChange={handleStartDateChange}
+                />
+              </FormGroup>
 
-            <FormGroup>
-              <Input
-                id="totalPrice"
-                name="totalPrice"
-                value={totalPrice}
-                label="VALOR FINAL"
-                disabled
-              />
-            </FormGroup>
-          </FormRow>
-        </Form>
+              <FormGroup>
+                <Input
+                  id="endDate"
+                  name="endDate"
+                  value={endDate}
+                  label="DATA DE TÉRMINO"
+                  disabled
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <Input
+                  id="totalPrice"
+                  name="totalPrice"
+                  value={totalPrice}
+                  label="VALOR FINAL"
+                  disabled
+                />
+              </FormGroup>
+            </FormRow>
+          </Form>
+        )}
       </Content>
     </Container>
   );
