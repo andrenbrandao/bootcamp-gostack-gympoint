@@ -11,6 +11,7 @@ import PlanEdit from '~/pages/PlanEdit';
 import PlanNew from '~/pages/PlanNew';
 import MembershipList from '~/pages/MembershipList';
 import MembershipEdit from '~/pages/MembershipEdit';
+import MembershipNew from '~/pages/MembershipNew';
 
 export default function Routes() {
   return (
@@ -27,6 +28,7 @@ export default function Routes() {
         component={MembershipEdit}
         isPrivate
       />
+      <Route path="/memberships/new" component={MembershipNew} isPrivate />
       <Route path="/memberships" component={MembershipList} isPrivate />
     </Switch>
   );

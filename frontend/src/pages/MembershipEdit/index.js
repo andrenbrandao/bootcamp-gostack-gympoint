@@ -46,7 +46,6 @@ export default function MembershipEdit({ match }) {
   } = match;
 
   const [loading, setLoading] = useState(true);
-  const [membership, setMembership] = useState({});
   const [duration, setDuration] = useState(0);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState('');
@@ -59,8 +58,6 @@ export default function MembershipEdit({ match }) {
   useEffect(() => {
     async function loadMembership() {
       const response = await api.get(`/memberships/${id}`);
-
-      setMembership(response.data);
 
       const { plan, student, start_date, end_date } = response.data;
       setSelectedPlan({ ...plan, id: plan.id, title: plan.title });
@@ -107,8 +104,19 @@ export default function MembershipEdit({ match }) {
     loadPlans();
   }, []);
 
-  async function handleSubmit(data) {
-    console.tron.log(data);
+  async function handleSubmit({ student_id, plan_id, start_date }) {
+    try {
+      await api.put(`/memberships/${id}`, {
+        student_id,
+        plan_id,
+        start_date,
+      });
+
+      toast.success('Matrícula atualizada com sucesso');
+      history.push('/memberships');
+    } catch (err) {
+      toast.error('Houve um erro ao atualizar a matrícula');
+    }
   }
 
   function updateEndDate(months, date) {
