@@ -24,15 +24,19 @@ import {
 } from './styles';
 
 const schema = Yup.object().shape({
-  student_id: Yup.number()
+  student: Yup.number()
     .integer()
     .positive()
-    .required('O aluno é obrigatório'),
-  plan_id: Yup.number()
+    .required('O aluno é obrigatório')
+    .typeError('O aluno é obrigatório'),
+  plan: Yup.number()
     .integer()
     .positive()
-    .required('O plano é obrigatório'),
-  start_date: Yup.date().required('A data de início é obrigatória'),
+    .required('O plano é obrigatório')
+    .typeError('O plano é obrigatório'),
+  start_date: Yup.date()
+    .required('A data de início é obrigatória')
+    .typeError('A data de início é obrigatória'),
 });
 
 export default function MembershipEdit({ match }) {
@@ -76,6 +80,10 @@ export default function MembershipEdit({ match }) {
     loadPlans();
   }, []);
 
+  async function handleSubmit(data) {
+    console.tron.log(data);
+  }
+
   return (
     <Container>
       <header>
@@ -95,7 +103,12 @@ export default function MembershipEdit({ match }) {
       </header>
 
       <Content>
-        <Form id="membershipForm" schema={schema} initialData={data}>
+        <Form
+          id="membershipForm"
+          schema={schema}
+          initialData={data}
+          onSubmit={handleSubmit}
+        >
           <FormGroup>
             <ReactSelect
               id="student"
@@ -103,7 +116,6 @@ export default function MembershipEdit({ match }) {
               options={studentOptions}
               label="ALUNO"
               placeholder="Buscar aluno"
-              required
             />
           </FormGroup>
 
@@ -115,7 +127,6 @@ export default function MembershipEdit({ match }) {
                 options={planOptions}
                 label="Plano"
                 placeholder="Selecione o plano"
-                required
               />
             </FormGroup>
 
@@ -125,7 +136,6 @@ export default function MembershipEdit({ match }) {
                 name="start_date"
                 label="DATA DE INÍCIO"
                 placeholderText="Escolha a data"
-                required
               />
             </FormGroup>
           </FormRow>

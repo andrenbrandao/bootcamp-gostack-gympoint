@@ -31,10 +31,12 @@ const schema = Yup.object().shape({
     .typeError('Insira uma idade válida'),
   weight: Yup.number()
     .positive('Insira um peso válido')
-    .required('O peso é obrigatório'),
+    .required('O peso é obrigatório')
+    .typeError('Insira um peso válido'),
   height: Yup.number()
     .positive('Insira uma altura válida')
-    .required('A altura é obrigatória'),
+    .required('A altura é obrigatória')
+    .typeError('Insira uma altura válida'),
 });
 
 export default function StudentEdit({ match }) {
@@ -110,7 +112,7 @@ export default function StudentEdit({ match }) {
           onSubmit={handleSubmit}
         >
           <FormGroup>
-            <Input id="name" name="name" label="NOME COMPLETO" required />
+            <Input id="name" name="name" label="NOME COMPLETO" />
           </FormGroup>
 
           <FormGroup>
@@ -119,7 +121,6 @@ export default function StudentEdit({ match }) {
               name="email"
               type="email"
               label="ENDEREÇO DE E-MAIL"
-              required
             />
           </FormGroup>
 
@@ -130,7 +131,6 @@ export default function StudentEdit({ match }) {
                 id="age"
                 name="age"
                 label="IDADE"
-                required
               />
             </FormGroup>
 
@@ -141,7 +141,6 @@ export default function StudentEdit({ match }) {
                 id="weight"
                 name="weight"
                 label="PESO (em kg)"
-                required
               />
             </FormGroup>
 
@@ -151,7 +150,6 @@ export default function StudentEdit({ match }) {
                 id="height"
                 name="height"
                 label="ALTURA (em cm)"
-                required
               />
             </FormGroup>
           </FormRow>

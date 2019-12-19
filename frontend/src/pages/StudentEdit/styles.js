@@ -73,6 +73,7 @@ export const Content = styled.div`
 export const FormRow = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: start;
 
   > div + div {
     margin-left: 10px;
@@ -92,12 +93,14 @@ export const FormGroup = styled.div`
     font-size: 14px;
     margin-bottom: 5px;
     flex: 1;
+  }
 
-    span {
-      margin-top: 10px;
-      font-size: 11px;
-      color: #ee4d64;
-    }
+  span {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 10px;
+    font-size: 11px;
+    color: #ee4d64;
   }
 
   input {

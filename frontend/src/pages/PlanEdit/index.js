@@ -29,7 +29,8 @@ const schema = Yup.object().shape({
     .typeError('Insira uma duração válida'),
   price: Yup.number()
     .positive('Insira um preço válido')
-    .required('O preço é obrigatório'),
+    .required('O preço é obrigatório')
+    .typeError('Insira um preço válido'),
 });
 
 export default function PlanEdit({ match }) {
@@ -118,7 +119,7 @@ export default function PlanEdit({ match }) {
           onSubmit={handleSubmit}
         >
           <FormGroup>
-            <Input id="title" name="title" label="TÍTULO DO PLANO" required />
+            <Input id="title" name="title" label="TÍTULO DO PLANO" />
           </FormGroup>
           <FormRow>
             <FormGroup>
@@ -127,7 +128,6 @@ export default function PlanEdit({ match }) {
                 id="duration"
                 name="duration"
                 label="DURAÇÃO (EM MESES)"
-                required
                 onChange={handleDurationChange}
               />
             </FormGroup>
@@ -141,7 +141,6 @@ export default function PlanEdit({ match }) {
                 id="price"
                 name="price"
                 label="PREÇO MENSAL"
-                required
                 onChange={handlePriceChange}
               />
             </FormGroup>
