@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 registerLocale('ptBR', ptBR);
 
-export default function DatePicker({ name, label, ...rest }) {
+export default function DatePicker({ name, label, onChange, ...rest }) {
   const ref = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
   const [selected, setSelected] = useState(defaultValue);
@@ -28,6 +28,11 @@ export default function DatePicker({ name, label, ...rest }) {
     e.preventDefault();
   }
 
+  function handleOnChange(date) {
+    setSelected(date);
+    if (onChange) onChange(date);
+  }
+
   return (
     <>
       {label && <label htmlFor={fieldName}>{label}</label>}
@@ -35,7 +40,7 @@ export default function DatePicker({ name, label, ...rest }) {
       <ReactDatePicker
         name={fieldName}
         selected={selected}
-        onChange={date => setSelected(date)}
+        onChange={date => handleOnChange(date)}
         ref={ref}
         locale={ptBR}
         dateFormat="dd/MM/yyyy"

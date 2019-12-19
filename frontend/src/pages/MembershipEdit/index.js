@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import { MdChevronLeft, MdCheck } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
+import { format, addMonths } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { toast } from 'react-toastify';
 
-import Select from 'react-select';
-import { formatPrice } from '~/utils/format';
-import NumberFormatInput from '~/components/NumberFormatInput';
 import ReactSelect from '~/components/ReactSelect';
 import DatePicker from '~/components/DatePicker';
 import history from '~/services/history';
@@ -24,12 +23,12 @@ import {
 } from './styles';
 
 const schema = Yup.object().shape({
-  student: Yup.number()
+  student_id: Yup.number()
     .integer()
     .positive()
     .required('O aluno é obrigatório')
     .typeError('O aluno é obrigatório'),
-  plan: Yup.number()
+  plan_id: Yup.number()
     .integer()
     .positive()
     .required('O plano é obrigatório')
@@ -45,9 +44,11 @@ export default function MembershipEdit({ match }) {
   } = match;
 
   const [membership, setMembership] = useState({});
-  const [studentOptions, setStudentOptions] = useState({});
-  const [planOptions, setPlanOptions] = useState({});
-  const [data, setData] = useState({});
+  const [duration, setDuration] = useState(0);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState('');
+  const [studentOptions, setStudentOptions] = useState([]);
+  const [planOptions, setPlanOptions] = useState([]);
 
   useEffect(() => {
     async function loadMembership() {
@@ -62,18 +63,22 @@ export default function MembershipEdit({ match }) {
   useEffect(() => {
     async function loadStudents() {
       const response = await api.get('/students');
-      const students = response.data;
 
       setStudentOptions(
-        students.map(student => ({ id: student.id, title: student.name }))
+        response.data.map(student => ({
+          ...student,
+          id: student.id,
+          title: student.name,
+        }))
       );
     }
 
     async function loadPlans() {
       const response = await api.get('/plans');
-      const plans = response.data;
 
-      setPlanOptions(plans.map(plan => ({ id: plan.id, title: plan.title })));
+      setPlanOptions(
+        response.data.map(plan => ({ ...plan, id: plan.id, title: plan.title }))
+      );
     }
 
     loadStudents();
@@ -82,6 +87,28 @@ export default function MembershipEdit({ match }) {
 
   async function handleSubmit(data) {
     console.tron.log(data);
+  }
+
+  function updateEndDate(months, date) {
+    if (date && months > 0) {
+      const newDate = addMonths(date, months);
+      const dateFormatted = format(newDate, 'dd/MM/yyyy', {
+        locale: ptBR,
+      });
+
+      setEndDate(dateFormatted);
+    }
+  }
+
+  function handlePlanChange(plan) {
+    const { duration: newDuration } = plan;
+    setDuration(newDuration);
+    updateEndDate(newDuration, startDate);
+  }
+
+  function handleStartDateChange(date) {
+    setStartDate(date);
+    updateEndDate(duration, date);
   }
 
   return (
@@ -103,16 +130,11 @@ export default function MembershipEdit({ match }) {
       </header>
 
       <Content>
-        <Form
-          id="membershipForm"
-          schema={schema}
-          initialData={data}
-          onSubmit={handleSubmit}
-        >
+        <Form id="membershipForm" schema={schema} onSubmit={handleSubmit}>
           <FormGroup>
             <ReactSelect
-              id="student"
-              name="student"
+              id="student_id"
+              name="student_id"
               options={studentOptions}
               label="ALUNO"
               placeholder="Buscar aluno"
@@ -122,11 +144,12 @@ export default function MembershipEdit({ match }) {
           <FormRow>
             <FormGroup>
               <ReactSelect
-                id="plan"
-                name="plan"
+                id="plan_id"
+                name="plan_id"
                 options={planOptions}
                 label="Plano"
                 placeholder="Selecione o plano"
+                onChange={handlePlanChange}
               />
             </FormGroup>
 
@@ -136,6 +159,17 @@ export default function MembershipEdit({ match }) {
                 name="start_date"
                 label="DATA DE INÍCIO"
                 placeholderText="Escolha a data"
+                onChange={handleStartDateChange}
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Input
+                id="endDate"
+                name="endDate"
+                value={endDate}
+                label="DATA DE TÉRMINO"
+                disabled
               />
             </FormGroup>
           </FormRow>
