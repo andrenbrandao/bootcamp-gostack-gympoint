@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { format, addMonths } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { toast } from 'react-toastify';
+import { formatPrice } from '~/utils/format';
 
 import ReactSelect from '~/components/ReactSelect';
 import DatePicker from '~/components/DatePicker';
@@ -47,6 +48,7 @@ export default function MembershipEdit({ match }) {
   const [duration, setDuration] = useState(0);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState('');
+  const [totalPrice, setTotalPrice] = useState('');
   const [studentOptions, setStudentOptions] = useState([]);
   const [planOptions, setPlanOptions] = useState([]);
 
@@ -101,8 +103,9 @@ export default function MembershipEdit({ match }) {
   }
 
   function handlePlanChange(plan) {
-    const { duration: newDuration } = plan;
+    const { duration: newDuration, price } = plan;
     setDuration(newDuration);
+    setTotalPrice(formatPrice(price * newDuration));
     updateEndDate(newDuration, startDate);
   }
 
@@ -169,6 +172,16 @@ export default function MembershipEdit({ match }) {
                 name="endDate"
                 value={endDate}
                 label="DATA DE TÉRMINO"
+                disabled
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Input
+                id="totalPrice"
+                name="totalPrice"
+                value={totalPrice}
+                label="VALOR FINAL"
                 disabled
               />
             </FormGroup>
