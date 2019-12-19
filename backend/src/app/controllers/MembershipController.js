@@ -117,6 +117,8 @@ class MembershipController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
+      student_id: Yup.number().required(),
+      plan_id: Yup.number().required(),
       start_date: Yup.date().required(),
     });
 
@@ -131,18 +133,13 @@ class MembershipController {
       return res.status(400).json({ error: 'Membership not found' });
     }
 
-    const { start_date } = req.body;
+    const { start_date, student_id, plan_id } = req.body;
     const start_date_day = startOfDay(parseISO(start_date));
-    const today = startOfDay(new Date());
-
-    if (isBefore(start_date_day, today)) {
-      return res
-        .status(400)
-        .json({ error: 'Membership date needs to be later than today' });
-    }
 
     const updatedMembership = await membership.update({
       start_date: start_date_day,
+      student_id,
+      plan_id,
     });
 
     return res.json(updatedMembership);
