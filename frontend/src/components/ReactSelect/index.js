@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
-import Select from 'react-select';
 
 import { useField } from '@rocketseat/unform';
+import { CustomSelect } from './styles';
 
 export default function ReactSelect({
   name,
@@ -48,7 +48,7 @@ export default function ReactSelect({
     <>
       {label && <label htmlFor={fieldName}>{label}</label>}
 
-      <Select
+      <CustomSelect
         name={fieldName}
         aria-label={fieldName}
         options={options}
@@ -57,6 +57,8 @@ export default function ReactSelect({
         ref={ref}
         getOptionValue={option => option.id}
         getOptionLabel={option => option.title}
+        className="react-select-container"
+        classNamePrefix="react-select"
         {...rest}
       />
 

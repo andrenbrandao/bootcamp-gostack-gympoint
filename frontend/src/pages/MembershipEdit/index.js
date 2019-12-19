@@ -10,6 +10,7 @@ import Select from 'react-select';
 import { formatPrice } from '~/utils/format';
 import NumberFormatInput from '~/components/NumberFormatInput';
 import ReactSelect from '~/components/ReactSelect';
+import DatePicker from '~/components/DatePicker';
 import history from '~/services/history';
 import api from '~/services/api';
 
@@ -114,6 +115,16 @@ export default function MembershipEdit({ match }) {
                 options={planOptions}
                 label="Plano"
                 placeholder="Selecione o plano"
+                required
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <DatePicker
+                id="start_date"
+                name="start_date"
+                label="DATA DE INÍCIO"
+                placeholderText="Escolha a data"
                 required
               />
             </FormGroup>
