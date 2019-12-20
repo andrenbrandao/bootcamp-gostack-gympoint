@@ -95,7 +95,7 @@ export const FormGroup = styled.div`
     flex: 1;
   }
 
-  span {
+  > span {
     font-weight: bold;
     text-transform: uppercase;
     margin-top: 10px;

@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { formatPrice } from '~/utils/format';
 
 import ReactSelect from '~/components/ReactSelect';
+import AsyncSelect from '~/components/AsyncSelect';
 import DatePicker from '~/components/DatePicker';
 import history from '~/services/history';
 import api from '~/services/api';
@@ -50,7 +51,6 @@ export default function MembershipEdit({ match }) {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState('');
   const [totalPrice, setTotalPrice] = useState('');
-  const [studentOptions, setStudentOptions] = useState([]);
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedPlan, setSelectedPlan] = useState({});
   const [selectedStudent, setSelectedStudent] = useState({});
@@ -80,18 +80,6 @@ export default function MembershipEdit({ match }) {
   }, [id]);
 
   useEffect(() => {
-    async function loadStudents() {
-      const response = await api.get('/students');
-
-      setStudentOptions(
-        response.data.map(student => ({
-          ...student,
-          id: student.id,
-          title: student.name,
-        }))
-      );
-    }
-
     async function loadPlans() {
       const response = await api.get('/plans');
 
@@ -100,7 +88,6 @@ export default function MembershipEdit({ match }) {
       );
     }
 
-    loadStudents();
     loadPlans();
   }, []);
 
@@ -128,6 +115,18 @@ export default function MembershipEdit({ match }) {
 
       setEndDate(dateFormatted);
     }
+  }
+
+  async function handleLoadStudents(inputValue) {
+    const response = await api.get('/students', { params: { q: inputValue } });
+
+    const options = response.data.map(student => ({
+      ...student,
+      id: student.id,
+      title: student.name,
+    }));
+
+    return options;
   }
 
   function handlePlanChange(plan) {
@@ -171,13 +170,13 @@ export default function MembershipEdit({ match }) {
         ) : (
           <Form id="membershipForm" schema={schema} onSubmit={handleSubmit}>
             <FormGroup>
-              <ReactSelect
+              <AsyncSelect
                 id="student_id"
                 name="student_id"
                 value={selectedStudent}
-                options={studentOptions}
                 label="ALUNO"
                 placeholder="Buscar aluno"
+                loadOptions={handleLoadStudents}
                 onChange={handleStudentChange}
               />
             </FormGroup>
