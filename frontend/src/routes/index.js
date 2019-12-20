@@ -12,6 +12,7 @@ import PlanNew from '~/pages/PlanNew';
 import MembershipList from '~/pages/MembershipList';
 import MembershipEdit from '~/pages/MembershipEdit';
 import MembershipNew from '~/pages/MembershipNew';
+import HelpOrderList from '~/pages/HelpOrderList';
 
 export default function Routes() {
   return (
@@ -30,6 +31,7 @@ export default function Routes() {
       />
       <Route path="/memberships/new" component={MembershipNew} isPrivate />
       <Route path="/memberships" component={MembershipList} isPrivate />
+      <Route path="/help-orders" component={HelpOrderList} isPrivate />
     </Switch>
   );
 }
