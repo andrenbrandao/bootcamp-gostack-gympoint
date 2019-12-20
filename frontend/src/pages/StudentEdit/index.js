@@ -17,6 +17,7 @@ import {
   Button,
   FormGroup,
   FormRow,
+  Loading
 } from './styles';
 
 const schema = Yup.object().shape({
@@ -44,6 +45,7 @@ export default function StudentEdit({ match }) {
     params: { id },
   } = match;
 
+  const [loading, setLoading] = useState(true);
   const [student, setStudent] = useState({});
   const [initialData, setInitialData] = useState({});
 
@@ -67,6 +69,8 @@ export default function StudentEdit({ match }) {
       weight,
       height,
     });
+
+    setLoading(false);
   }, [student]);
 
   async function handleSubmit({ name, email, age, weight, height }) {
@@ -105,55 +109,59 @@ export default function StudentEdit({ match }) {
       </header>
 
       <Content>
-        <Form
-          id="studentForm"
-          schema={schema}
-          initialData={initialData}
-          onSubmit={handleSubmit}
-        >
-          <FormGroup>
-            <Input id="name" name="name" label="NOME COMPLETO" />
-          </FormGroup>
-
-          <FormGroup>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              label="ENDEREÇO DE E-MAIL"
-            />
-          </FormGroup>
-
-          <FormRow>
+        {loading ? (
+          <Loading>Carregando...</Loading>
+        ) : (
+          <Form
+            id="studentForm"
+            schema={schema}
+            initialData={initialData}
+            onSubmit={handleSubmit}
+          >
             <FormGroup>
-              <NumberFormatInput
-                format="##"
-                id="age"
-                name="age"
-                label="IDADE"
-              />
+              <Input id="name" name="name" label="NOME COMPLETO" />
             </FormGroup>
 
             <FormGroup>
-              <NumberFormatInput
-                decimalScale={1}
-                fixedDecimalScale
-                id="weight"
-                name="weight"
-                label="PESO (em kg)"
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                label="ENDEREÇO DE E-MAIL"
               />
             </FormGroup>
 
-            <FormGroup>
-              <NumberFormatInput
-                format="###"
-                id="height"
-                name="height"
-                label="ALTURA (em cm)"
-              />
-            </FormGroup>
-          </FormRow>
-        </Form>
+            <FormRow>
+              <FormGroup>
+                <NumberFormatInput
+                  format="##"
+                  id="age"
+                  name="age"
+                  label="IDADE"
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <NumberFormatInput
+                  decimalScale={1}
+                  fixedDecimalScale
+                  id="weight"
+                  name="weight"
+                  label="PESO (em kg)"
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <NumberFormatInput
+                  format="###"
+                  id="height"
+                  name="height"
+                  label="ALTURA (em cm)"
+                />
+              </FormGroup>
+            </FormRow>
+          </Form>
+        )}
       </Content>
     </Container>
   );

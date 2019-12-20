@@ -117,3 +117,11 @@ export const FormGroup = styled.div`
     }
   }
 `;
+
+export const Loading = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  font-size: 18px;
+  color: #888;
+`;

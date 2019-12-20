@@ -18,6 +18,7 @@ import {
   Button,
   FormGroup,
   FormRow,
+  Loading,
 } from './styles';
 
 const schema = Yup.object().shape({
@@ -38,6 +39,7 @@ export default function PlanEdit({ match }) {
     params: { id },
   } = match;
 
+  const [loading, setLoading] = useState(true);
   const [plan, setPlan] = useState({});
   const [data, setData] = useState({});
   const [totalPrice, setTotalPrice] = useState(formatPrice(0.0));
@@ -64,6 +66,7 @@ export default function PlanEdit({ match }) {
     });
 
     setTotalPrice(formatPrice(price * duration));
+    setLoading(false);
   }, [plan]);
 
   async function handleSubmit({ title, duration, price }) {
@@ -112,50 +115,54 @@ export default function PlanEdit({ match }) {
       </header>
 
       <Content>
-        <Form
-          id="planForm"
-          schema={schema}
-          initialData={data}
-          onSubmit={handleSubmit}
-        >
-          <FormGroup>
-            <Input id="title" name="title" label="TÍTULO DO PLANO" />
-          </FormGroup>
-          <FormRow>
+        {loading ? (
+          <Loading>Carregando...</Loading>
+        ) : (
+          <Form
+            id="planForm"
+            schema={schema}
+            initialData={data}
+            onSubmit={handleSubmit}
+          >
             <FormGroup>
-              <NumberFormatInput
-                format="##"
-                id="duration"
-                name="duration"
-                label="DURAÇÃO (EM MESES)"
-                onChange={handleDurationChange}
-              />
+              <Input id="title" name="title" label="TÍTULO DO PLANO" />
             </FormGroup>
+            <FormRow>
+              <FormGroup>
+                <NumberFormatInput
+                  format="##"
+                  id="duration"
+                  name="duration"
+                  label="DURAÇÃO (EM MESES)"
+                  onChange={handleDurationChange}
+                />
+              </FormGroup>
 
-            <FormGroup>
-              <NumberFormatInput
-                decimalScale={2}
-                fixedDecimalScale
-                prefix="R$ "
-                decimalSeparator=","
-                id="price"
-                name="price"
-                label="PREÇO MENSAL"
-                onChange={handlePriceChange}
-              />
-            </FormGroup>
+              <FormGroup>
+                <NumberFormatInput
+                  decimalScale={2}
+                  fixedDecimalScale
+                  prefix="R$ "
+                  decimalSeparator=","
+                  id="price"
+                  name="price"
+                  label="PREÇO MENSAL"
+                  onChange={handlePriceChange}
+                />
+              </FormGroup>
 
-            <FormGroup>
-              <Input
-                id="totalPrice"
-                name="totalPrice"
-                value={totalPrice}
-                label="PREÇO TOTAL"
-                disabled
-              />
-            </FormGroup>
-          </FormRow>
-        </Form>
+              <FormGroup>
+                <Input
+                  id="totalPrice"
+                  name="totalPrice"
+                  value={totalPrice}
+                  label="PREÇO TOTAL"
+                  disabled
+                />
+              </FormGroup>
+            </FormRow>
+          </Form>
+        )}
       </Content>
     </Container>
   );
