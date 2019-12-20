@@ -5,7 +5,15 @@ import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 
-import { Container, Content, Table, Modal, Button, FormGroup } from './styles';
+import {
+  Container,
+  Content,
+  Table,
+  Modal,
+  Button,
+  FormGroup,
+  Message,
+} from './styles';
 
 Modal.setAppElement('#root');
 
@@ -61,29 +69,33 @@ export default function HelpOrderList() {
         </header>
 
         <Content>
-          <Table>
-            <thead>
-              <tr>
-                <th>ALUNO</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {helpOrders.map(helpOrder => (
-                <tr key={helpOrder.id}>
-                  <td>{helpOrder.student.name}</td>
-                  <td>
-                    <button
-                      type="button"
-                      onClick={() => handleAnswerClick(helpOrder.id)}
-                    >
-                      responder
-                    </button>
-                  </td>
+          {helpOrders.length === 0 ? (
+            <Message>Não há novos pedidos de auxílio</Message>
+          ) : (
+            <Table>
+              <thead>
+                <tr>
+                  <th>ALUNO</th>
+                  <th />
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {helpOrders.map(helpOrder => (
+                  <tr key={helpOrder.id}>
+                    <td>{helpOrder.student.name}</td>
+                    <td>
+                      <button
+                        type="button"
+                        onClick={() => handleAnswerClick(helpOrder.id)}
+                      >
+                        responder
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          )}
         </Content>
       </Container>
       <Modal isOpen={showModal} onRequestClose={() => setShowModal(false)}>
