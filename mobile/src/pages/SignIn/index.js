@@ -1,8 +1,15 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
+
+import Button from '~/components/Button';
 
 // import { Container } from './styles';
 
 export default function SignIn() {
-  return <View />;
+  return (
+    <View>
+      <Text>Sign In</Text>
+      <Button>Hello</Button>
+    </View>
+  );
 }
