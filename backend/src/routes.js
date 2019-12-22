@@ -22,11 +22,12 @@ router.post('/students/:studentId/checkins', CheckinController.store);
 router.get('/students/:studentId/help-orders', HelpOrderController.index);
 router.post('/students/:studentId/help-orders', HelpOrderController.store);
 
+router.get('/students/:id', StudentController.show);
+
 // Admin routes
 
 router.use(authMiddleware);
 router.get('/students', StudentController.index);
-router.get('/students/:id', StudentController.show);
 router.post('/students', StudentController.store);
 router.put('/students/:id', StudentController.update);
 router.delete('/students/:id', StudentController.delete);
@@ -38,7 +39,7 @@ router.put('/plans/:id', PlanController.update);
 router.delete('/plans/:id', PlanController.delete);
 
 router.get('/memberships', MembershipController.index);
-router.get('/memberships/:id', MembershipController.show)
+router.get('/memberships/:id', MembershipController.show);
 router.post('/memberships', MembershipController.store);
 router.put('/memberships/:id', MembershipController.update);
 router.delete('/memberships/:id', MembershipController.delete);
