@@ -1,7 +1,6 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 
 import { Alert } from 'react-native';
-// import history from '~/services/history';
 import api from '~/services/api';
 
 import { signInSuccess, signFailure } from './actions';
@@ -15,8 +14,6 @@ export function* signIn({ payload }) {
     const user = response.data;
 
     yield put(signInSuccess(user));
-
-    // history.push('/students');
   } catch (err) {
     Alert.alert(
       'Falha na autenticação',
@@ -26,22 +23,11 @@ export function* signIn({ payload }) {
   }
 }
 
-export function setToken({ payload }) {
-  if (!payload) return;
-
-  const { token } = payload.auth;
-
-  if (token) {
-    api.defaults.headers.Authorization = `Bearer ${token}`;
-  }
-}
-
 export function signOut() {
-  history.push('/');
+  console.tron.log('Sign out');
 }
 
 export default all([
-  // takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
   takeLatest('@auth/SIGN_OUT', signOut),
 ]);
