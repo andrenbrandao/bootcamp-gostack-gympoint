@@ -18,6 +18,7 @@ class CheckinController {
       where: {
         student_id,
       },
+      order: [['created_at', 'DESC']],
     });
 
     return res.json(checkins);
