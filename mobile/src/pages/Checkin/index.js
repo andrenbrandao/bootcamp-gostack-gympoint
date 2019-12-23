@@ -1,88 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import api from '~/services/api';
 
-import {
-  Wrapper,
-  Container,
-  CheckinButton,
-  List,
-  CheckinItem,
-  CheckinTitle,
-  CheckinDate,
-} from './styles';
+import CheckinItem from '~/components/CheckinItem';
 
-const data = [
-  {
-    id: 1,
-    title: 'Check-in #1',
-    date: 'Hoje às 14h',
-  },
-  {
-    id: 2,
-    title: 'Check-in #1',
-    date: 'Hoje às 14h',
-  },
-  {
-    id: 3,
-    title: 'Check-in #1',
-    date: 'Hoje às 14h',
-  },
-  {
-    id: 4,
-    title: 'Check-in #1',
-    date: 'Hoje às 14h',
-  },
-  {
-    id: 5,
-    title: 'Check-in #1',
-    date: 'Hoje às 14h',
-  },
-  {
-    id: 6,
-    title: 'Check-in #1',
-    date: 'Hoje às 14h',
-  },
-  {
-    id: 7,
-    title: 'Check-in #1',
-    date: 'Hoje às 14h',
-  },
-  {
-    id: 8,
-    title: 'Check-in #1',
-    date: 'Hoje às 14h',
-  },
-  {
-    id: 9,
-    title: 'Check-in #1',
-    date: 'Hoje às 14h',
-  },
-  {
-    id: 10,
-    title: 'Check-in #1',
-    date: 'Hoje às 14h',
-  },
-  {
-    id: 11,
-    title: 'Check-in #1',
-    date: 'Hoje às 14h',
-  },
-];
+import { Wrapper, Container, CheckinButton, List } from './styles';
 
 export default function Checkin() {
+  const { id } = useSelector(state => state.user.profile);
+  const [checkins, setCheckins] = useState([]);
+
+  useEffect(() => {
+    async function loadCheckins() {
+      const response = await api.get(`/students/${id}/checkins`);
+
+      setCheckins(response.data);
+    }
+
+    loadCheckins();
+  }, [id]);
+
   return (
     <Wrapper>
       <Container>
         <CheckinButton>Novo check-in</CheckinButton>
         <List
-          data={data}
+          data={checkins}
           keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
-            <CheckinItem>
-              <CheckinTitle>{item.title}</CheckinTitle>
-              <CheckinDate>{item.date}</CheckinDate>
-            </CheckinItem>
+          renderItem={({ item, index }) => (
+            <CheckinItem data={item} number={checkins.length - index} />
           )}
         />
       </Container>
