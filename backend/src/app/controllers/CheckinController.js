@@ -45,7 +45,9 @@ class CheckinController {
     });
 
     if (checkin) {
-      return res.json({ message: 'Student already checked in today' });
+      return res
+        .status(403)
+        .json({ error: 'Student already checked in today' });
     }
 
     const checkinsCount = await Checkin.count({
@@ -63,9 +65,9 @@ class CheckinController {
         .json({ error: 'Student can only checkin 5 times per week' });
     }
 
-    await Checkin.create({ student_id });
+    const newCheckin = await Checkin.create({ student_id });
 
-    return res.json({ message: 'Student checked in successfully' });
+    return res.json(newCheckin);
   }
 }
 
