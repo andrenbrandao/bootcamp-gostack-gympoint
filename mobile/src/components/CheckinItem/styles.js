@@ -9,6 +9,7 @@ export const Item = styled.View`
   padding: 15px 20px;
   margin: 5px 0;
 `;
+
 export const CheckinTitle = styled.Text`
   font-weight: bold;
   color: #444;
