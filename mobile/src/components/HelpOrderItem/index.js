@@ -13,7 +13,7 @@ import {
   Header,
 } from './styles';
 
-export default function CheckinItem({ data }) {
+export default function CheckinItem({ data, navigation }) {
   const dateParsed = useMemo(() => {
     return formatRelative(parseISO(data.created_at), new Date(), {
       locale: ptBR,
@@ -21,8 +21,12 @@ export default function CheckinItem({ data }) {
     });
   }, [data.created_at]);
 
+  function handleHelpOrderPress() {
+    navigation.navigate('HelpOrderDetail', { data });
+  }
+
   return (
-    <Item>
+    <Item onPress={handleHelpOrderPress}>
       <Header>
         {data.answer ? (
           <HasAnswerGroup>
