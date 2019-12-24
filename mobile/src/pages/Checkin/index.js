@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import api from '~/services/api';
 
 import CheckinItem from '~/components/CheckinItem';
+import LogoTitle from '~/components/LogoTitle';
 
 import { Wrapper, Container, CheckinButton, List } from './styles';
 
@@ -62,10 +63,3 @@ export default function Checkin() {
     </Wrapper>
   );
 }
-
-Checkin.navigationOptions = {
-  tabBarLabel: 'Check-ins',
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name="place" size={20} color={tintColor} />
-  ),
-};

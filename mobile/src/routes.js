@@ -5,6 +5,8 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import LogoTitle from '~/components/LogoTitle';
+
 import SignIn from '~/pages/SignIn';
 import Checkin from '~/pages/Checkin';
 import HelpOrder from '~/pages/HelpOrder';
@@ -18,7 +20,27 @@ export default (signedIn = false) =>
         Sign: SignIn,
         App: createBottomTabNavigator(
           {
-            Checkin,
+            Checkins: {
+              screen: createStackNavigator(
+                {
+                  Checkin,
+                },
+                {
+                  defaultNavigationOptions: {
+                    headerTitle: () => <LogoTitle />,
+                    headerLeftContainerStyle: {
+                      marginLeft: 20,
+                    },
+                  },
+                },
+              ),
+              navigationOptions: {
+                tabBarLabel: 'Check-ins',
+                tabBarIcon: ({ tintColor }) => (
+                  <Icon name="place" size={20} color={tintColor} />
+                ),
+              },
+            },
             HelpOrders: {
               screen: createStackNavigator(
                 {
@@ -28,6 +50,7 @@ export default (signedIn = false) =>
                 },
                 {
                   defaultNavigationOptions: {
+                    headerTitle: () => <LogoTitle />,
                     headerLeftContainerStyle: {
                       marginLeft: 20,
                     },
