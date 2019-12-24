@@ -9,6 +9,7 @@ import SignIn from '~/pages/SignIn';
 import Checkin from '~/pages/Checkin';
 import HelpOrder from '~/pages/HelpOrder';
 import HelpOrderDetail from '~/pages/HelpOrderDetail';
+import HelpOrderNew from '~/pages/HelpOrderNew';
 
 export default (signedIn = false) =>
   createAppContainer(
@@ -23,6 +24,7 @@ export default (signedIn = false) =>
                 {
                   HelpOrder,
                   HelpOrderDetail,
+                  HelpOrderNew,
                 },
                 {
                   defaultNavigationOptions: {

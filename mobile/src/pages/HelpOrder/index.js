@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { withNavigationFocus } from 'react-navigation';
 
 import api from '~/services/api';
 
 import HelpOrderItem from '~/components/HelpOrderItem';
 import { Wrapper, Container, List, HelpOrderButton } from './styles';
 
-export default function HelpOrder({ navigation }) {
+function HelpOrder({ navigation, isFocused }) {
   const { id } = useSelector(state => state.user.profile);
   const [helpOrders, setHelpOrders] = useState([]);
 
@@ -17,13 +18,18 @@ export default function HelpOrder({ navigation }) {
       setHelpOrders(response.data);
     }
 
-    loadHelpOrders();
-  }, [id]);
+    if (isFocused) {
+      loadHelpOrders();
+    }
+  }, [id, isFocused]);
 
   return (
     <Wrapper>
       <Container>
-        <HelpOrderButton onPress={() => {}}>
+        <HelpOrderButton
+          onPress={() => {
+            navigation.navigate('HelpOrderNew');
+          }}>
           Novo pedido de auxílio
         </HelpOrderButton>
         <List
@@ -37,3 +43,5 @@ export default function HelpOrder({ navigation }) {
     </Wrapper>
   );
 }
+
+export default withNavigationFocus(HelpOrder);
