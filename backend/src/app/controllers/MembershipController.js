@@ -1,4 +1,4 @@
-import { isBefore, parseISO, startOfDay } from 'date-fns';
+import { parseISO, startOfDay } from 'date-fns';
 
 import * as Yup from 'yup';
 import Plan from '../models/Plan';
@@ -90,13 +90,6 @@ class MembershipController {
     const { start_date } = req.body;
 
     const start_date_day = startOfDay(parseISO(start_date));
-    const today = startOfDay(new Date());
-
-    if (isBefore(start_date_day, today)) {
-      return res
-        .status(400)
-        .json({ error: 'Membership date needs to be later than today' });
-    }
 
     const membership = await Membership.create({
       ...req.body,
